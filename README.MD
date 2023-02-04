@@ -193,3 +193,33 @@ with app.test_request_context():
 ```
 Que imprime:
 > /editar/5
+
+## Subindo imagens para o servidor
+Fomulários que recebam arquivos precisam usar a propriedade `enctype="multipart/form-data":`
+```HTML
+<form enctype="multipart/form-data" action="/salvar" method="POST">
+```
+
+Para limitar os formatos de arquivo no campo de arquivo, use a propriedade `accept` e coloque os formatos precedidos de ponto e separados por vírgula:
+```HTML
+<input type="file" name="arquivo" accept=".jpg, .png">
+
+<!-- Qualquer imagem-->
+<input type="file" name="arquivo" accept="image/*">
+
+<!-- Qualquer áudio-->
+<input type="file" name="arquivo" accept="audio/*">
+
+```
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept">Outras informações sobre accept no site do MDN</a>
+
+### Salvar arquivos no Flask
+Acessar os arquivos no Flask, e salvá-los, é muito simples:
+```python
+# Procura o arquivo do campo de formulário chamado 'arquivo':
+arquivo = request.files.get('arquivo')
+diretorio = 'caminho/para/uploads'
+novo_nome = 'novo_nome.txt'
+
+arquivo.save(f'{diretorio}/{novo_nome}')
+```
