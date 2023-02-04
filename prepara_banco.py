@@ -76,6 +76,9 @@ jogos = [
     ('Tetris', 'Puzzle', 'Atari'), 
     ('God of War', 'Hack n Slash', 'PS2'), 
     ('Mortal Kombat', 'Luta', 'PS2'), 
+    ('Valorant', 'FPS', 'PC'),
+    ('Crash Bandicoot', 'Hack n Slash', 'PS2'),
+    ('Need for Speed', 'Corrida', 'PS2'),
 ]
 cursor.executemany(jogos_sql, jogos)
 
@@ -86,3 +89,5 @@ for jogo in cursor.fetchall():
 
 # Commit se nada tem efeito.
 conn.commit()
+cursor.close()
+conn.close()

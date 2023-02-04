@@ -112,3 +112,6 @@ objeto = Entidade.query.filter_by(coluna1=valor, col2=3).first()
 ```
 
 Nesta aula, acrescentei um navbar no cabeçalho para facilitar a navegação no app.
+
+## Faça como eu fiz: persistência com MySQL
+Apenas a atualização do arquivo prepara_banco.py. As funções de fechar a sessão e a conexão não estavam inseridas até agora.
