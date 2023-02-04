@@ -1,5 +1,5 @@
-flask~=2.0.2
-# flask-sqlalchemy~=2.5.1
+flask~=2.2
+flask-sqlalchemy~=3.0.3
 # flask-bcrypt~=0.7.1
 # flask-wtf~=1.0.0
 mysql-connector-python~=8.0.28

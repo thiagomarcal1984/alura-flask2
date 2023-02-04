@@ -46,3 +46,15 @@ SHOW TABLES;
 ## Gerando banco de dados
 Foi necessário instalar a biblioteca **mysql-connector-python (versão 8.0.28)** para que o Python se comunique com o servidor MySQL. Veja o código em prepara_banco.py.
 
+## Conectando ao banco de dados
+As dependências anteriores eram: 
+```Python
+flask~=2.0.2
+flask-sqlalchemy~=2.5.1
+```
+
+Mas para que o código do projeto apresentado na aula funcione, foi necessário atualizar as dependências para:
+```Python
+flask~=2.2
+flask-sqlalchemy~=3.0.3
+```
