@@ -40,7 +40,16 @@ def editar(id):
 
 @app.route('/atualizar', methods=['POST',])
 def atualizar():
-    pass
+    id = request.form.get('id') # Vem do campo oculto do template.
+    jogo = Jogos.query.filter_by(id=id).first()
+    jogo.nome = request.form.get('nome')
+    jogo.categoria = request.form.get('categoria')
+    jogo.console = request.form.get('console')
+
+    # db.session.add(jogo) # Este comando não foi necessário pra atualizar.
+    db.session.commit()
+
+    return redirect(url_for('index'))
 
 @app.route('/login')
 def login():

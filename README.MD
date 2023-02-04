@@ -145,3 +145,13 @@ Veja no template `lista.html` que a função `url_for` precisa de parâmetros **
 O raciocínio é semelhante nas rotas: a função `render_template` precisa de parâmetros **nomeados** para que os templates consigam referencia-los. Não basta a função da rota declarar as variáveis.
 
 Ainda precisamos implementar a rota `atualizar`.
+
+## Atualizando dados do servidor
+Não há diferença entre os comandos para criar e editar entidades no SqlAlchemy:
+```python
+db.session.add(entidade) 
+# O comando session.add não é necessário pra atualizar,
+# mas é necessário para adicionar a entidade.
+
+db.session.commit() # Confirma as mudanças no DB.
+```
