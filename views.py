@@ -29,7 +29,8 @@ def criar():
     db.session.commit()
     
     arquivo = request.files.get('arquivo')
-    arquivo.save(f'uploads/{arquivo.filename}')
+    upload_path = app.config.get('UPLOAD_PATH')
+    arquivo.save(f'{upload_path}/capa-{novo_jogo.id}.jpg')
 
     return redirect(url_for('index'))
 

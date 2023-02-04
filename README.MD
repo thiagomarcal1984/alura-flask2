@@ -223,3 +223,12 @@ novo_nome = 'novo_nome.txt'
 
 arquivo.save(f'{diretorio}/{novo_nome}')
 ```
+## Melhorando destino de upload
+Para escrever o caminho absoluto do diretório que contém o arquivo onde o código é executado, use:
+```python
+import os
+UPLOAD_PATH = os.path.dirname(os.path.abspath(__file__))
+```
+A variável `__file__` é um dunder-file que se refere ao arquivo atual. A função `os.path.abspath` busca o path absoluto de um arquivo, que é o ideal para definir o path para gravação de arquivos. A função `os.path.dirname` retorna apenas o path do diretório de um arquivo.
+
+Um código semelhante foi inserido no arquivo `config.py`.
