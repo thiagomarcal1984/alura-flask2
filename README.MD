@@ -115,3 +115,8 @@ Nesta aula, acrescentei um navbar no cabeçalho para facilitar a navegação no 
 
 ## Faça como eu fiz: persistência com MySQL
 Apenas a atualização do arquivo prepara_banco.py. As funções de fechar a sessão e a conexão não estavam inseridas até agora.
+
+## Reestruturando o código
+As configurações da aplicação Flask podem ser inseridas como strings em um arquivo .py separado, e depois carregadas pelo método `app.config.from_pyfile(arquivo.py)`. Somente variáveis declaradas com letras maiúsculas são importadas por meio do comando `app.config.from_pyfile()`.
+
+Os novos arquivos `config.py` e `models.py` precisam importar conteúdo (variáveis `app` e `db`) do arquivo da aplicação (`jogoteca.py`).
