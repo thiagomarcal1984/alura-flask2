@@ -232,3 +232,39 @@ UPLOAD_PATH = os.path.dirname(os.path.abspath(__file__))
 A variável `__file__` é um dunder-file que se refere ao arquivo atual. A função `os.path.abspath` busca o path absoluto de um arquivo, que é o ideal para definir o path para gravação de arquivos. A função `os.path.dirname` retorna apenas o path do diretório de um arquivo.
 
 Um código semelhante foi inserido no arquivo `config.py`.
+
+## Mostrando a capa do jogo
+A função `send_from_directory` do Flask envia um arquivo a partir de um diretório:
+```python
+return send_from_directory('/caminho/do/arquivo', 'arquivo.txt')
+```
+
+Dica para campos de arquivo no HTML: 
+1) crie um label;
+2) insira o campo de arquivo ***dentro*** dele;
+3) oculte o campo de arquivo (estilo `display: none;`). 
+
+O label inteiro vai servir para exibir a janela de seleção do arquivo! Você pode usar JavaScript posteriormente para exibir o nome do arquivo (que geralmente é `C:\fakepath\nome_do_arquivo.ext`). 
+
+Exemplo:
+```HTML
+<form name="formulario" enctype="multipart/form-data">
+    <label style="cursor: pointer;">
+        <div style="padding: 10px; background-color: cyan;">
+            Selecionar arquivo
+        </div>  
+        <input style="display: none;" type="file" name="arquivo">
+    </label>
+    <script>
+        function pathArquivo() {alert(`
+            Nome do arquivo: 
+            ${document.forms['formulario']['arquivo'].value}
+        `);}
+    </script>
+    <br/>
+    <button type="submit" onclick="pathArquivo()">
+        Mostrar o path do arquivo?
+    </button>
+</form>
+```
+Repare no exemplo que o método continua sendo `GET`. Então, o nome do arquivo acaba aparecendo na query string da URI resultante do envio do formulário.

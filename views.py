@@ -1,4 +1,12 @@
-from flask import render_template, request, redirect, session, flash, url_for
+from flask import (
+    flash, 
+    redirect, 
+    render_template, 
+    request, 
+    send_from_directory,
+    session, 
+    url_for, 
+)
 from jogoteca import app, db
 from models import Jogos, Usuarios
 
@@ -90,3 +98,7 @@ def logout():
     session['usuario_logado'] = None
     flash('Logout efetuado com sucesso!')
     return redirect(url_for('index'))
+
+@app.route('/uploads/<nome_arquivo>')
+def imagem(nome_arquivo):
+    return send_from_directory(app.config.get('UPLOAD_PATH'), nome_arquivo)
