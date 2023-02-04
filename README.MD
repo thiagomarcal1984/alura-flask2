@@ -169,3 +169,27 @@ resultado = url_for('funcao_endpoint', parm1=1, parm2='Dois')
 print(resultado) # Retorno: /rota?parm1=1&parm2=Dois
 
 ```
+
+## Para saber mais: testando url_for
+
+Você pode testar a criação da URLs dinâmicas através do `url_for` sem o servidor rodando. Para tal, basta importar o Flask e url_for no console:
+```python
+from flask import Flask, url_for
+```
+E tendo uma rota:
+
+```python
+app = Flask(__name__)
+@app.route('/editar/<int:id>')
+    def editar(id): 
+        pass
+```
+
+Você também pode testar a criação da URL dinâmica através do método `test_request_context()`:
+
+```python
+with app.test_request_context():
+    print(url_for('editar',id=5))
+```
+Que imprime:
+> /editar/5
