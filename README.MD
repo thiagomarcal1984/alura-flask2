@@ -84,3 +84,31 @@ class Entidade(db.Model):
 ```
 
 O método `__repr__(self)` sobre-escrito é chamado caso o método `__str__(self)` não esteja definido. A diferença é sutil: `__repr__` é para facilitar a compreensão da estrutura do objeto para o **programador**, enquanto `__str__` é usado para facilitar a leitura pelo **usuário**.
+
+## Recuperando a listagem persistida
+Buscar dados de um modelo flask-sqlalchemy é muito simples. A documentação é bem concisa e auto-explicativa: https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/queries/:
+
+```python
+# Para lista completa.
+lista = Entidade.query.order_by() # Não ordena.
+
+ou
+
+lista = Entidade.query.filter_by() # Não filtra.
+```
+
+A ordenação consiste em referenciar a coluna da entidade dentro de order_by, e depois inserir `.asc()` ou `.desc`, se você precisar definir ordem ascendente/crescente:
+```python
+lista = Entidade.query.order_by(Entidade.categoria.asc())
+
+ou
+
+lista = Entidade.query.order_by(Entidade.categoria.desc())
+```
+
+O filtro também é simples:
+```python
+objeto = Entidade.query.filter_by(coluna1=valor, col2=3).first()
+```
+
+Nesta aula, acrescentei um navbar no cabeçalho para facilitar a navegação no app.
