@@ -127,3 +127,21 @@ Acréscimo de duas rotas: editar (GET) e atualizar (POST, que ainda não está i
 O arquivo `novo.html` teve apenas mudança na identação. O arquivo `editar.html` é apenas uma cópia do arquivo `novo.html`.
 
 Por ora, nada de muito novo no código.
+
+## Direcionando a edição
+Como colocar parâmetros nas funções de rota, usando a URI:
+
+```python
+@app.route('/metodo/<int:id>')
+def metodo(id):
+    obj = Entidade.query.filter_by(id=id).first()
+    ...
+```
+
+Perceba que `<int:id>` tem o tipo da variável, seguida do nome dela.
+
+Veja no template `lista.html` que a função `url_for` precisa de parâmetros **nomeados** para gerar a URL completa, com a id de cada objeto.
+
+O raciocínio é semelhante nas rotas: a função `render_template` precisa de parâmetros **nomeados** para que os templates consigam referencia-los. Não basta a função da rota declarar as variáveis.
+
+Ainda precisamos implementar a rota `atualizar`.
