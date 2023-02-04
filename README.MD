@@ -58,3 +58,29 @@ Mas para que o código do projeto apresentado na aula funcione, foi necessário 
 flask~=2.2
 flask-sqlalchemy~=3.0.3
 ```
+## Criando tabelas
+As cabelas são criadas via flask-sqlalchemy com os seguintes comandos:
+
+```python
+from flask_sqlalchemy import SQLAlchemy
+
+...
+
+app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+    """string do SqlAlchemy: 
+        '{SGBD}://{usuario}:{senha}@{servidor}:{porta}/{database}'
+    """
+
+db = SQLAlchemy(app)
+
+class Entidade(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(50), nullable=False)
+
+    def __repr__(self) -> str:
+        return '<Name %r>' % self.nome
+```
+
+O método `__repr__(self)` sobre-escrito é chamado caso o método `__str__(self)` não esteja definido. A diferença é sutil: `__repr__` é para facilitar a compreensão da estrutura do objeto para o **programador**, enquanto `__str__` é usado para facilitar a leitura pelo **usuário**.
