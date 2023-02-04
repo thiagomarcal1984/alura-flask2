@@ -34,6 +34,8 @@ def criar():
 def editar(id):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login', proxima=url_for('editar')))
+        # Sem o código do comentário abaixo, a próxima URL fica mal formada.
+        # return redirect(url_for('login', proxima=url_for('editar', id=id)))
 
     jogo = Jogos.query.filter_by(id=id).first()
     return render_template('editar.html', titulo='Editando Jogo', jogo=jogo)
@@ -49,6 +51,16 @@ def atualizar():
     # db.session.add(jogo) # Este comando não foi necessário pra atualizar.
     db.session.commit()
 
+    return redirect(url_for('index'))
+
+@app.route('/deletar/<int:id>')
+def deletar(id):
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+
+    Jogos.query.filter_by(id=id).delete()
+    db.session.commit()
+    flash('Jogo deletado com sucesso!')
     return redirect(url_for('index'))
 
 @app.route('/login')

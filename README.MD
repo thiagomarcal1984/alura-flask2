@@ -155,3 +155,17 @@ db.session.add(entidade)
 
 db.session.commit() # Confirma as mudanças no DB.
 ```
+# Deletando jogos
+Lembre-se de usar o commit para confirmar a remoção do objeto do banco.
+
+A formação de URIs + querystring com a função `url_for()` funciona da seguinte forma:
+
+```python
+@app.route('/rota')
+def funcao_endpoint(parm1: int, parm2: str):
+    return render_template('template.html')
+
+resultado = url_for('funcao_endpoint', parm1=1, parm2='Dois')
+print(resultado) # Retorno: /rota?parm1=1&parm2=Dois
+
+```
