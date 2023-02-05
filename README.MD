@@ -312,3 +312,6 @@ print(file.readlines()) # Imprime o conteúdo todo do arquivo.
 
 ## Melhorando a interface
 Apenas inclusão de botões nos arquivos .html, para facilitar a navegação.
+
+## Implementando o Flask WTF
+Os modelos de formulário da aplicação vão ficar em helpers.py.
