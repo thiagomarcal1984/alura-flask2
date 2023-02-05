@@ -300,4 +300,12 @@ A função `recupera_imagem` em `helpers.py` foi atualizada para confirmar se o 
 No entanto, temos o problema da geração de MUITOS arquivos de imagem associados a um mesmo ID. A próxima aula veremos como resolver isso.
 
 ## Deletando imagens duplicadas
-O código em helpers.py é auto explicativo.
+O código em helpers.py é auto explicativo. Um único detalhe a mais é sobre como tornar o path dos arquivos independente do SO. Para isso, usamos a função `os.path.join`.
+
+```python
+import os
+path = os.path.join('d:\\','alura','flask2','requirements.txt')
+# No Windows, path = 'd:\\alura\\flask2\\requirements.txt'
+file = open(path, 'r')
+print(file.readlines()) # Imprime o conteúdo todo do arquivo.
+```
