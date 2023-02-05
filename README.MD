@@ -155,7 +155,7 @@ db.session.add(entidade)
 
 db.session.commit() # Confirma as mudanças no DB.
 ```
-# Deletando jogos
+## Deletando jogos
 Lembre-se de usar o commit para confirmar a remoção do objeto do banco.
 
 A formação de URIs + querystring com a função `url_for()` funciona da seguinte forma:
@@ -298,3 +298,6 @@ O cache do navegador pode atrapalhar a exibição dos arquivos de imagem enviado
 A função `recupera_imagem` em `helpers.py` foi atualizada para confirmar se o texto `capa-{id}` está presente no nome do arquivo. Na prática, ele retorna o primeiro arquivo que obedece a esse padrão.
 
 No entanto, temos o problema da geração de MUITOS arquivos de imagem associados a um mesmo ID. A próxima aula veremos como resolver isso.
+
+## Deletando imagens duplicadas
+O código em helpers.py é auto explicativo.
