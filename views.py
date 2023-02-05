@@ -11,6 +11,7 @@ from jogoteca import app, db
 from models import Jogos, Usuarios
 
 from helpers import recupera_imagem
+import time
 
 @app.route('/')
 def index():
@@ -37,10 +38,12 @@ def criar():
     novo_jogo = Jogos(nome=nome, categoria=categoria, console=console)
     db.session.add(novo_jogo)
     db.session.commit()
+    # db.session.refresh(novo_jogo) # Atualizar o objeto para buscar o ID.
     
     arquivo = request.files.get('arquivo')
     upload_path = app.config.get('UPLOAD_PATH')
-    arquivo.save(f'{upload_path}/capa-{novo_jogo.id}.jpg')
+    timestamp = time.time()
+    arquivo.save(f'{upload_path}/capa-{novo_jogo.id}-{timestamp}.jpg')
 
     return redirect(url_for('index'))
 
@@ -74,7 +77,8 @@ def atualizar():
 
     arquivo = request.files.get('arquivo')
     upload_path = app.config.get('UPLOAD_PATH')
-    arquivo.save(f'{upload_path}/capa-{jogo.id}.jpg')
+    timestamp = time.time()
+    arquivo.save(f'{upload_path}/capa-{jogo.id}-{timestamp}.jpg')
 
     return redirect(url_for('index'))
 

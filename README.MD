@@ -292,3 +292,9 @@ Para remover um arquivo, use:
 ```python
 os.remove('string_path')
 ```
+## Contornando o CACHE
+O cache do navegador pode atrapalhar a exibição dos arquivos de imagem enviados ao servidor. Uma solução é inserir um nome único nos arquivos enviados com um timestamp.
+
+A função `recupera_imagem` em `helpers.py` foi atualizada para confirmar se o texto `capa-{id}` está presente no nome do arquivo. Na prática, ele retorna o primeiro arquivo que obedece a esse padrão.
+
+No entanto, temos o problema da geração de MUITOS arquivos de imagem associados a um mesmo ID. A próxima aula veremos como resolver isso.
