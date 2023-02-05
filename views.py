@@ -10,6 +10,8 @@ from flask import (
 from jogoteca import app, db
 from models import Jogos, Usuarios
 
+from helpers import recupera_imagem
+
 @app.route('/')
 def index():
     lista = Jogos.query.order_by(Jogos.id.asc())
@@ -50,7 +52,14 @@ def editar(id):
         # return redirect(url_for('login', proxima=url_for('editar', id=id)))
 
     jogo = Jogos.query.filter_by(id=id).first()
-    return render_template('editar.html', titulo='Editando Jogo', jogo=jogo)
+
+    contexto = {
+        'titulo': 'Editando Jogo', 
+        'jogo': jogo,
+        'capa_jogo': recupera_imagem(id),
+    }
+    # Os dois asteriscos são o spread-operator do Python.
+    return render_template('editar.html', **contexto)
 
 @app.route('/atualizar', methods=['POST',])
 def atualizar():
@@ -62,6 +71,10 @@ def atualizar():
 
     # db.session.add(jogo) # Este comando não foi necessário pra atualizar.
     db.session.commit()
+
+    arquivo = request.files.get('arquivo')
+    upload_path = app.config.get('UPLOAD_PATH')
+    arquivo.save(f'{upload_path}/capa-{jogo.id}.jpg')
 
     return redirect(url_for('index'))
 

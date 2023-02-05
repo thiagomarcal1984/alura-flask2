@@ -282,3 +282,13 @@ O JavaScript em app.js para substituição da imagem era dependente do jQuery. M
 | `let imagem = $('<img class="img-fluid">');` | `let imagem = document.createElement('img');` | No jQuery, a criação do elemento é um parâmetro na função `$()` e permite a atribuição de classes CSS; no JavaScript puro, a criação é feita pelo método `document.createElement(tag)`, e não permite a atribuição de classes CSS. |
 | `let imagem = $('<img class="img-fluid">');` | `imagem.classList.add('img-fluid');` | No jQuery, uma clsase CSS já pode ser atribuída dentro da função `$()`; no JavaScript puro, a atribuição de uma classe CSS é feita por meio do método `elemento.classList.add('classe-css')`. |
 | `imagem.attr('src', window.URL.createObjectURL(arquivos[0]));` | `imagem.setAttribute('src', window.URL.createObjectURL(arquivos[0]));` | No jQuery, o método `attr(key, value)` do elemento define seu atributo; no JavaScript puro, o método `setAttribute(key, value)` do elemento define seu atributo. |
+
+## Editando a capa dos jogos
+O arquivo helpers.py contém a função que recupera uma imagem de acordo com o ID. Se ela não existir, uma imagem padrão é exibida.
+
+O método `save` nos arquivos obtidos de `request.files` substitui o arquivo caso ele exista.
+
+Para remover um arquivo, use:
+```python
+os.remove('string_path')
+```
