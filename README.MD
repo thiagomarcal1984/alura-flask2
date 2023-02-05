@@ -315,3 +315,52 @@ Apenas inclusão de botões nos arquivos .html, para facilitar a navegação.
 
 ## Implementando o Flask WTF
 Os modelos de formulário da aplicação vão ficar em helpers.py.
+
+## Validando o formulário de novo jogo
+Sintaxe para criação de um formulário:
+```python
+class Formulario(FlaskForm):
+    # Cada campo precisa do label e da lista de validadores.
+    nome = StringField('nome', [validators.DataRequired()])
+    cpf = StringField('cpf', [validators.Length(min=11, max=11)])
+    salvar = SubmitField('Salvar')
+
+```
+Sintaxe para chamar o formulário nas views (tanto na de GET quanto na de POST):
+```python
+@app.route('/rota')
+def rota_endpoint():
+    form = Formulario()
+    return render_template('template.html', form=form)
+
+@app.route('/salvar', methods=['POST',])
+def rota_salvar():
+    # Cria formulário a partir do POST.
+    form = Formulario(request.form) 
+    
+    # Repare em ".data" para cada campo.
+    nome = form.nome.data
+    cpf = form.cpf.data
+    
+    # ... processamento do formulário...
+
+    return redirect(url_for('index'))
+```
+
+Sintaxe para chamar os campos dos formulários nos templates:
+```python
+<form method="post" action="{{ url_for('rota_salvar') }}">
+    <div>
+        {# Use class ou class_ para atribuir CSS aos campos. #}
+        {{ form.nome.label(class_='form-label') }}
+        {{ form.nome(class='form-control') }}
+    </div>
+    <div>
+        {{ form.cpf.label(class_='form-label') }}
+        {{ form.cpf(class='form-control') }}
+    </div>
+    <div>
+        {{ form.salvar(class_='btn') }}
+    </div>
+</form>
+```

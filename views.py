@@ -10,7 +10,7 @@ from flask import (
 from jogoteca import app, db
 from models import Jogos, Usuarios
 
-from helpers import recupera_imagem, deleta_arquivo
+from helpers import recupera_imagem, deleta_arquivo, FormularioJogo
 import time
 
 @app.route('/')
@@ -20,15 +20,26 @@ def index():
 
 @app.route('/novo')
 def novo():
+    form = FormularioJogo()
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login', proxima=url_for('novo')))
-    return render_template('novo.html', titulo='Novo Jogo')
+    contexto = {
+        'titulo' : 'Novo Jogo',
+        'form' : form,
+    }
+    # Os dois asteriscos são o spread-operator do Python.
+    return render_template('novo.html', **contexto)
 
 @app.route('/criar', methods=['POST',])
 def criar():
-    nome = request.form['nome']
-    categoria = request.form['categoria']
-    console = request.form['console']
+    form = FormularioJogo(request.form)
+    if not form.validate_on_submit():
+        return redirect(url_for('novo'))
+
+    nome = form.nome.data
+    categoria = form.categoria.data
+    console = form.console.data
+
     jogo = Jogos.query.filter_by(nome=nome).first()
 
     if jogo:
