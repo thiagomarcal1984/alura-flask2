@@ -268,3 +268,17 @@ Exemplo:
 </form>
 ```
 Repare no exemplo que o método continua sendo `GET`. Então, o nome do arquivo acaba aparecendo na query string da URI resultante do envio do formulário.
+
+## Usando um pouco de JavaScript
+A aula em si se baseava em copiar e colar código JavaScript
+
+O JavaScript em app.js para substituição da imagem era dependente do jQuery. Modifiquei o código para remover essa dependência:
+
+| Código Antigo | Código Novo | O que muda |
+|---|---|---|
+|`form = $('form input[type="file"]')` | ` form = document.querySelector('form input[type="file"]')`| O seletor no jQuery é `$()`; no JavaScript puro é `document.querySelector()`. |
+| `form.change(mudar);`| `form.onchange = mudar;` | No jQuery, a função `mudar` é **um parâmetro da função `change`** ; no JavaScript puro, a função `mudar` é **atribuída ao atributo `onchange`** . |
+| `if(tipo_arquivo == 'image/jpeg') { ... }` | `if(tipo_arquivo.includes('image/')) { ... }` | O código antigo só permitia jpeg; o código novo permite qualquer tipo de arquivo cujo nome comece com `image/`. |
+| `let imagem = $('<img class="img-fluid">');` | `let imagem = document.createElement('img');` | No jQuery, a criação do elemento é um parâmetro na função `$()` e permite a atribuição de classes CSS; no JavaScript puro, a criação é feita pelo método `document.createElement(tag)`, e não permite a atribuição de classes CSS. |
+| `let imagem = $('<img class="img-fluid">');` | `imagem.classList.add('img-fluid');` | No jQuery, uma clsase CSS já pode ser atribuída dentro da função `$()`; no JavaScript puro, a atribuição de uma classe CSS é feita por meio do método `elemento.classList.add('classe-css')`. |
+| `imagem.attr('src', window.URL.createObjectURL(arquivos[0]));` | `imagem.setAttribute('src', window.URL.createObjectURL(arquivos[0]));` | No jQuery, o método `attr(key, value)` do elemento define seu atributo; no JavaScript puro, o método `setAttribute(key, value)` do elemento define seu atributo. |

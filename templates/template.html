@@ -40,7 +40,9 @@
           </div>
 
             {% block conteudo %}{% endblock %}
-
+            {# No Jinja, comentários são feitos entre chaves e cerquilhas. #}
+            {# <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"></script> #}
+            <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
         </div>
     </body>
 </html>
