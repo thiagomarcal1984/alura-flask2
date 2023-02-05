@@ -309,3 +309,6 @@ path = os.path.join('d:\\','alura','flask2','requirements.txt')
 file = open(path, 'r')
 print(file.readlines()) # Imprime o conteúdo todo do arquivo.
 ```
+
+## Melhorando a interface
+Apenas inclusão de botões nos arquivos .html, para facilitar a navegação.
