@@ -446,3 +446,27 @@ checkpw('senha'.encode('utf-8'), hash)
 A desvantagem é adicionar mais um import, o do gensalt(). Por padrão, o método não precisa de parâmetros. Essa função gera um salt, que recebe os parâmetros `round` (valor padrão na biblioca bcrypt é `12`) e `prefix` (valor padrão na biblioteca bcrypt é `b"2b"`). 
 
 O parâmetro `round` se refere ao custo para calcular o hash. E o parâmetro `prefix` só recebe apenas os valores possíveis `b"2b"` e `b"2a"`.
+
+## Para saber mais: um pouco mais sobre o Bcrypt
+
+O *Bcrypt* é uma ferramenta que utiliza um algoritmo baseado em *hashing* para garantir a segurança de senhas e dados gerais em aplicações web.
+
+### *Encryption* (2-way conversation) vs. *Hashing* (one-way conversation)
+*Hashing* consiste em transformar um determinado input de dados dado pelo usuário em um ***hash*** por meio de uma fórmula matemática. Todo *hash* consiste em uma série de letras e números de mesmo tamanho, não importando o tamanho do dado fornecido pelo usuário.
+
+O processo de *hashing* é considerada uma one-way conversation (conversa de uma única via), ou seja, uma vez que um determinado dado passou pelo processo de *hashing*, se torna impossível desfazê-lo para se encontrar o input original.
+
+Essa característica reduz o risco de vazamento de informações armazenadas em bancos de dados e impõe mais dificuldades a ataques diversos. O *hashing* pode ser considerado um dos métodos mais eficientes de armazenamento de senhas.
+
+*Encryption* é outro método de proteção de informações, porém, diferentemente do *hashing*, se trata de um método two-way conversation (conversa de mão dupla). Isso significa que uma informação que passou pelo processo de *encryption* pode ser descoberta com a inversão do processo.
+
+Para isso, basta que se tenha um programa específico dedicado à inversão e a *encryption* key. Apesar de não ser tão seguro para armazenamento de senhas quanto o *hashing*, a vantagem do *encryption* é poder ser utilizado de forma mais abrangente em diversas situações, tornando-o mais versátil.
+
+### A Cifra Blowfish
+O que torna o *Bcrypt* especial é que, além de usar o método de *hashing*, seu funcionamento implica a utilização conjunta de *hashing* e da cifra Blowfish.
+
+Essa cifra é utilizada através da criação de certas keys que fazem parte de um processo de criptografia do próprio *hash* - a key faz parte do *hash*. Dessa forma, qualquer tentativa de ataque de força bruta acaba exigindo muito poder de processamento. Seria como trancar algo dentro de um cofre e colocar um cadeado. Contudo, o cadeado se encontra protegido por outro cadeado.
+
+Portanto, o *Bcrypt* acaba por ser um mecanismo de proteção de senhas comprovadamente eficaz e mais utilizado pelas mais diversas aplicações web do mercado.
+
+
