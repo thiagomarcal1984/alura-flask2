@@ -1,12 +1,14 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
 db = SQLAlchemy(app)
 csrf = CSRFProtect(app)
+bcrypt = Bcrypt(app)
 
 # Se as views não forem importadas, as rotas não são baixadas.
 from views_game import *

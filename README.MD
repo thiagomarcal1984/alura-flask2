@@ -391,3 +391,58 @@ Podemos invocar métodos sem parâmetros no template **com** ou **sem** os parê
 
 ## Refatorando a aplicação
 Aplicação de CSS e distribuição dos códigos das views em arquivos separados.
+
+## Criptografando as senhas
+Algumas bibliotecas precisam de downgrades ou upgrades para manter a compatibilidade. Consulte o site dos respositórios pip (pypi.org).
+
+A dependência recomendada para o flask-bcrypt na aula era 0.7.1; para manter a compatibilidade, usei a versão 1.0.1. Na aula também foi recomendada a instalação de uma versão específica da biblioteca werkzeug, mas como ela já é instalada pelo Flask, não acrescentei a werkzeug em requirements.txt.
+
+### Instalação do Bcrypt no app Flask
+Na aula foi proposto o seguinte código: 
+```python
+from flask_bcrypt import Bcrypt
+app = Flask(__name__)
+bcrypt = Bcrypt(app)
+```
+**Porém** removi essas linhas do Bcrypt na aplicação, e o código funcionou sem problemas. As modificações nos arquivos `views_user.py` e `prepara_banco.py` foram suficientes para gerar e comparar as senhas.
+
+### A geração da senha
+No arquivo `prepara_banco.py` importamos a função `generate_password_hash("senha a criptografar")`. Como a função retorna bytes (array de caracteres, não string), precisamos convertê-la para string e informar o conjunto de caracteres aplicável, por meio do método `.decode('encoding')` (no caso, o encoding é utf-8):
+```python
+from flask_bcrypt import generate_password_hash
+senha_criptografada = generate_password_hash("senha").decode('utf-8')
+```
+### Checando a senha
+A função `check_password_hash` recebe dois parâmetros: a senha criptografada e a senha informada. O método retorna um `bool`:
+
+```python
+from flask_bcrypt import check_password_hash
+
+usuario = busca_usuario(request.forms.get('usuario'))
+senha = request.forms.get('senha')
+if usuario is not None and check_password_hash(usuario.senha, senha):
+    # Login confirmado, redireciona.
+    return redirect(url_for('restrito'))
+else: 
+    # Informa falha na autenticação.
+    return render_template('login.html')
+
+```
+
+### Precisa mesmo baixar o Flask Bcrypt?
+A documentação da biblioteca bcrypt (sem o Flask) parece muito clara sobre como gerar e checar senhas:
+```python
+from bcrypt import hashpw, gensalt, checkpw
+hash = hashpw('senha'.encode('utf-8'), gensalt())
+
+print(hash)
+# Resultado: 
+# b'$2b$12$EKJgB5EB5k.JHYfpzjvT9e4j06wNEeHtEEc2GXtVBoJ/Sual7OI62'
+
+checkpw('senha'.encode('utf-8'), hash)
+# Resultado: True
+
+```
+A desvantagem é adicionar mais um import, o do gensalt(). Por padrão, o método não precisa de parâmetros. Essa função gera um salt, que recebe os parâmetros `round` (valor padrão na biblioca bcrypt é `12`) e `prefix` (valor padrão na biblioteca bcrypt é `b"2b"`). 
+
+O parâmetro `round` se refere ao custo para calcular o hash. E o parâmetro `prefix` só recebe apenas os valores possíveis `b"2b"` e `b"2a"`.

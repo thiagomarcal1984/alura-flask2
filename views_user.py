@@ -7,6 +7,8 @@ from flask import (
     url_for, 
 )
 
+from flask_bcrypt import check_password_hash
+
 from jogoteca import app
 from models import Usuarios
 from helpers import FormularioUsuario
@@ -23,17 +25,13 @@ def login():
 def autenticar():
     form = FormularioUsuario(request.form)
     usuario = Usuarios.query.filter_by(nickname=form.nickname.data).first()
-    if usuario:
-        if form.senha.data == usuario.senha:
-            session['usuario_logado'] = usuario.nickname
-            flash(usuario.nickname + ' logado com sucesso!')
-            # O parm. proxima_pagina não está no FlaskForm.
-            proxima_pagina = request.form['proxima']
-            return redirect(proxima_pagina)
-        # O código faltante na aula.
-        flash('Senha inválida.')
-        return redirect(url_for('login'))
-        # Fim do código faltante.
+    senha = check_password_hash(usuario.senha, form.senha.data)
+    if usuario and senha:
+        session['usuario_logado'] = usuario.nickname
+        flash(usuario.nickname + ' logado com sucesso!')
+        # O parm. proxima_pagina não está no FlaskForm.
+        proxima_pagina = request.form['proxima']
+        return redirect(proxima_pagina)
     else:
         flash('Usuário não logado.')
         return redirect(url_for('login'))
