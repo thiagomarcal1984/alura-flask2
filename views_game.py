@@ -8,13 +8,12 @@ from flask import (
     url_for, 
 )
 from jogoteca import app, db
-from models import Jogos, Usuarios
+from models import Jogos
 
 from helpers import (
     recupera_imagem,
     deleta_arquivo,
     FormularioJogo,
-    FormularioUsuario,
 )
 import time
 
@@ -117,39 +116,6 @@ def deletar(id):
     db.session.commit()
     deleta_arquivo(id)
     flash('Jogo deletado com sucesso!')
-    return redirect(url_for('index'))
-
-@app.route('/login')
-def login():
-    contexto = {
-        'proxima' : request.args.get('proxima'),
-        'form' : FormularioUsuario(),
-    }
-    return render_template('login.html', **contexto)
-
-@app.route('/autenticar', methods=['POST',])
-def autenticar():
-    form = FormularioUsuario(request.form)
-    usuario = Usuarios.query.filter_by(nickname=form.nickname.data).first()
-    if usuario:
-        if form.senha.data == usuario.senha:
-            session['usuario_logado'] = usuario.nickname
-            flash(usuario.nickname + ' logado com sucesso!')
-            # O parm. proxima_pagina não está no FlaskForm.
-            proxima_pagina = request.form['proxima']
-            return redirect(proxima_pagina)
-        # O código faltante na aula.
-        flash('Senha inválida.')
-        return redirect(url_for('login'))
-        # Fim do código faltante.
-    else:
-        flash('Usuário não logado.')
-        return redirect(url_for('login'))
-
-@app.route('/logout')
-def logout():
-    session['usuario_logado'] = None
-    flash('Logout efetuado com sucesso!')
     return redirect(url_for('index'))
 
 @app.route('/uploads/<nome_arquivo>')

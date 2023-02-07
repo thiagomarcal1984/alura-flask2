@@ -9,7 +9,8 @@ db = SQLAlchemy(app)
 csrf = CSRFProtect(app)
 
 # Se as views não forem importadas, as rotas não são baixadas.
-from views import *
+from views_game import *
+from views_user import *
 
 if __name__ == '__main__':
     app.run(debug=True)

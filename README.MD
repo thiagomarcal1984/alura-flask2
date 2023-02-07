@@ -388,3 +388,6 @@ class LoginForm(FlaskForm):
 Podemos invocar métodos sem parâmetros no template **com** ou **sem** os parênteses, o resultado é o mesmo: 
 - `{{ form.csrf_token() }}` é o mesmo que `{{ form.csrf_token }}`.
 - `{{ form.nickname() }}` é o mesmo que `{{ form.nickname }}`.
+
+## Refatorando a aplicação
+Aplicação de CSS e distribuição dos códigos das views em arquivos separados.
