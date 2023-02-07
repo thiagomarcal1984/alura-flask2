@@ -373,3 +373,18 @@ csrf = CSRFProtect(app)
 ```
 
 A sintaxe para invocação do CSRF token no template com flask-wtf é diferente do Django: `{{ form.csrf_token() }}`.
+
+## Criando novo formulário de login
+O `FlaskForm` e a requisição POST são coisas diferentes. Veja o parâmetro `proxima`: ele não é parte do formulário, mas é usado na requisição para redirecionar a resposta.
+
+Sintaxe do formulário de login: 
+```python
+class LoginForm(FlaskForm):
+    user = StringField('Lb. User', [construtor do validador])
+    senha = PasswordField('Lb. Senha', [construtor do validador])
+    login = SubmitField('Login')
+```
+
+Podemos invocar métodos sem parâmetros no template **com** ou **sem** os parênteses, o resultado é o mesmo: 
+- `{{ form.csrf_token() }}` é o mesmo que `{{ form.csrf_token }}`.
+- `{{ form.nickname() }}` é o mesmo que `{{ form.nickname }}`.
