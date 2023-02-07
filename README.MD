@@ -364,3 +364,12 @@ Sintaxe para chamar os campos dos formulários nos templates:
     </div>
 </form>
 ```
+## Integrando formulário de edição
+Sempre que usarmos um `FlaskForm` do flask-wtf, e usarmos o método `validate_on_submit()`, ele vai verificar o CSRF token. Se o código abaixo não estiver presente na aplicação Flask, o erro de CSRF token inválido não ficará explícito no navegador:
+```python
+from flask_wtf.csrf import CSRFProtect
+app = Flask(__name__)
+csrf = CSRFProtect(app)
+```
+
+A sintaxe para invocação do CSRF token no template com flask-wtf é diferente do Django: `{{ form.csrf_token() }}`.

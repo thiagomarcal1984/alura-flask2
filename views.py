@@ -66,33 +66,42 @@ def editar(id):
         # return redirect(url_for('login', proxima=url_for('editar', id=id)))
 
     jogo = Jogos.query.filter_by(id=id).first()
+    form = FormularioJogo(
+        nome=jogo.nome,
+        categoria=jogo.categoria,
+        console=jogo.console,
+    )
 
     contexto = {
         'titulo': 'Editando Jogo', 
-        'jogo': jogo,
+        'id': id, # Não é mais necessário enviar o jogo.
         'capa_jogo': recupera_imagem(id),
+        'form': form, # O formulário substitui o jogo.
     }
     # Os dois asteriscos são o spread-operator do Python.
     return render_template('editar.html', **contexto)
 
 @app.route('/atualizar', methods=['POST',])
 def atualizar():
-    id = request.form.get('id') # Vem do campo oculto do template.
-    jogo = Jogos.query.filter_by(id=id).first()
-    jogo.nome = request.form.get('nome')
-    jogo.categoria = request.form.get('categoria')
-    jogo.console = request.form.get('console')
+    form = FormularioJogo(request.form)
 
-    # db.session.add(jogo) # Este comando não foi necessário pra atualizar.
-    db.session.commit()
+    if form.validate_on_submit():
+        jogo = Jogos.query.filter_by(id=request.form.get('id')).first()
+        jogo.nome = form.nome.data
+        jogo.categoria = form.categoria.data
+        jogo.console = form.console.data
 
-    arquivo = request.files.get('arquivo')
-    upload_path = app.config.get('UPLOAD_PATH')
-    timestamp = time.time()
-    deleta_arquivo(jogo.id)
-    arquivo.save(f'{upload_path}/capa-{jogo.id}-{timestamp}.jpg')
+        # db.session.add(jogo) # Este comando não foi necessário pra atualizar.
+        db.session.commit()
 
-    return redirect(url_for('index'))
+        arquivo = request.files.get('arquivo')
+        upload_path = app.config.get('UPLOAD_PATH')
+        timestamp = time.time()
+        deleta_arquivo(jogo.id)
+        arquivo.save(f'{upload_path}/capa-{jogo.id}-{timestamp}.jpg')
+
+        return redirect(url_for('index'))
+    return redirect(url_for('editar', id=request.form.get('id')))
 
 @app.route('/deletar/<int:id>')
 def deletar(id):

@@ -11,6 +11,7 @@
       </figcaption>
     </figure>
     <fieldset>
+      {{ form.csrf_token() }}
       <div class="form-group">
         {{ form.nome.label(class='form-label') }}
         {{ form.nome(class_='form-control') }}
